@@ -1,21 +1,11 @@
-import * as React from 'react'
-import { createTheme, ThemeProvider, useColorScheme } from '@mui/material/styles'
-import Stack from '@mui/material/Stack'
+import { ThemeProvider, useColorScheme } from '@mui/material/styles'
 import MenuItem from '@mui/material/MenuItem'
-import Switch from '@mui/material/Switch'
 import Select from '@mui/material/Select'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import { Box, Button } from '@mui/material'
+import { Box, Container, CssBaseline } from '@mui/material'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
 import LightModeIcon from '@mui/icons-material/LightMode'
-
-const theme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: '.demo-disable-transition-%s'
-  },
-  colorSchemes: { dark: true }
-})
+import theme from './theme'
 
 
 function ModeSwitcher() {
@@ -30,6 +20,7 @@ function ModeSwitcher() {
         setMode(event.target.value as 'system' | 'light' | 'dark')
       }
       sx={{ minWidth: 120 }}
+      size='small'
     >
       <MenuItem value="system">
         <Box sx={{ display: 'flex', alightItem: 'center', gap: 1 }}>
@@ -51,40 +42,35 @@ function ModeSwitcher() {
 }
 
 function App() {
-  const [disableTransition, setDisableTransition] = React.useState(false)
   return (
-    <ThemeProvider
-      theme={theme}
-      disableTransitionOnChange={disableTransition}
-    >
-      <Button variant="text" color="success">Text</Button>
-      <Button variant="contained" color="success">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-      <Stack
-        sx={{
-          width: '100%',
-          borderRadius: '4px',
-          p: 2,
-          gap: 2,
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container disableGutters maxWidth={false} sx={{ backgroundColor: 'primary.main', height: '100vh' }}>
+        <Box sx={{
+          backgroundColor: 'primary.light',
+          height: theme.trello.appBarHeight,
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          bgcolor: 'background.default',
-          color: 'text.primary',
-          transition: '1s'
-        }}
-      >
-        <ModeSwitcher />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={disableTransition}
-              onChange={(event) => setDisableTransition(event.target.checked)}
-            />
-          }
-          label="Disable transition"
-        />
-      </Stack>
+          alignItems: 'center'
+        }}>
+          <ModeSwitcher />
+        </Box>
+        <Box sx={{
+          backgroundColor: 'primary.dark',
+          height: theme.trello.boardBarHeight,
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          Board Bar
+        </Box>
+        <Box sx={{
+          backgroundColor: 'primary.yellow',
+          height: `calc(100vh - ${theme.trello.appBarHeight} - ${theme.trello.boardBarHeight})`,
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          Board Content
+        </Box>
+      </Container>
     </ThemeProvider>
   )
 }
