@@ -17,7 +17,6 @@ function ModeSelect() {
       onChange={(event) =>
         setMode(event.target.value as 'system' | 'light' | 'dark')
       }
-      sx={{ minWidth: 120 }}
       size='small'
     >
       <MenuItem value="system">
